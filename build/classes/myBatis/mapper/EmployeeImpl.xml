@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<!--   namespace是名称空间：写接口的全类名，相当于告诉muBatis这个配置文件是实现哪个接口的 -->
+<mapper namespace="com.hospital.Dao.EmployeeDao">
+
+	<!-- public Employee_BasicInfo findById(int id); -->
+	<select id="findById" resultType="Employee_BasicInfo">
+		select * from employee_basicinfo where EmpID=#{id}
+	</select>
+	
+	<insert id="insertEmp">
+		insert into employee_basicinfo(EmpID,Name,Sex,Age,Birth,Password,Department) 
+						values(20003,"王五",0,21,"1999-01-02","aaaaaa","医疗部")
+	</insert>
+	
+	<!-- public int UpdateEmployee(Employee_BasicInfo emp); -->
+	<update id="UpdateEmployee">
+		update employee_basicinfo set 
+			Name=#{Name},Sex=#{Sex},Age=#{Age},Birth=#{Birth},Department=#{Department},Telephone=#{Telephone},Address=#{Address}
+			where EmpID=#{EmpID}
+	</update>
+	
+	
+	
+  
+</mapper>

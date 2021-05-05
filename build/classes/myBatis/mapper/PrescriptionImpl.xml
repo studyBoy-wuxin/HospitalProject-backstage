@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<!--   namespace是名称空间：写接口的全类名，相当于告诉muBatis这个配置文件是实现哪个接口的 -->
+<mapper namespace="com.hospital.Dao.PrescriptionDao">
+
+	<!-- public int insertPrescription(Prescription pres); -->
+	<insert id="insertPrescription">
+		insert into prescription(PresID,DocInfoID,PatID,TreatmentTime,DoctorSuggestion,Totalprice,BookedTime,Status) 
+					values(#{PresID},#{DocInfoID},#{PatID},#{TreatmentTime},#{DoctorSuggestion},#{TotalPrice},#{BookedTime},#{Status}) 
+	</insert>
+	
+	<!-- public List<Prescription> findPrescriptionByDocInfoIDList(List<Integer> DocInfoIDList); -->
+	<select id="findPrescriptionByDocInfoIDList" resultType="Prescription">
+				
+		SELECT * FROM prescription A
+		WHERE 
+   		NOT  EXISTS  ( 
+	        SELECT PresID 
+	        FROM prescription_medicine B
+        	WHERE B.PresID = A.PresID ) 
+        and DocInfoID in
+        <foreach collection="list" item="item" open="(" close=")" separator=",">
+        	#{item}
+        </foreach>
+	</select>
+	
+	<!-- public int updatePresMes(Prescription pres); -->
+	<update id="updatePresMes">
+		update prescription set DoctorSuggestion=#{DoctorSuggestion},TreatmentTime=#{TreatmentTime},TotalPrice=#{TotalPrice} 
+			where PresID=#{PresID}
+	</update>
+	
+	<!-- public List<Prescription> findAllPresMesPresIDList(@Param("list")List<Integer> presIDList,@Param("DocID")int DocID);-->
+	<select id="findAllPresMesPresIDList" resultType="Prescription">
+		select * from prescription where PresID in
+		<foreach collection="list" item="item" separator="," open="(" close=")">
+				#{item}
+		</foreach>
+		and DocInfoID in 
+		<foreach collection="docInfoIDList" item="item" open="(" close=")" separator=",">
+        	#{item}
+        </foreach>
+	</select>
+	
+	<!-- public Prescription findUnPaidPresByPatID(int PatID) ; -->
+	<select id="findUnPaidPresByPatID" resultType="Prescription">
+		select * from prescription where PatID=#{PatID} and Status=0
+	</select>
+	
+</mapper>

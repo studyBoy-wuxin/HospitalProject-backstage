@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<!--   namespace是名称空间：写接口的全类名，相当于告诉muBatis这个配置文件是实现哪个接口的 -->
+<mapper namespace="com.hospital.Dao.MedicineDao">
+
+	<!-- public List<Medicine> findAllType() -->
+	<select id="findAllType" resultType="String">
+		select distinct Type from medicine		
+	</select>
+	
+	<!-- public List<Medicine> findMedicinesByType(String Type); -->
+	<select id="findMedicinesByType" resultType="Medicine">
+		select MedID,MedName,Price,Description,Inventory,OverdueDate,Type from medicine	where Type = #{Type}	
+	</select>
+  
+    <!-- public List<Medicine> findAllMedicines(); -->
+    <select id="findAllMedicines" resultType="Medicine">
+    	select * from medicine
+    </select>
+    
+    <!-- public Medicine findMedByID(String MedID); -->
+    <select id="findMedByID" resultType="Medicine">
+    	select * from medicine where MedID=#{MedID}
+    </select>
+    
+    <!-- public int ReduceMedicine(String MedID,int newInventory); -->
+    <update id="ReduceMedicine">
+    	update medicine set Inventory=#{newInventory} where MedID=#{MedID}
+    </update>
+    
+    <!-- public List<Medicine> findMedInfoByMedIDList(List<Integer> MedID); -->
+    <select id="findMedInfoByMedIDList" resultType="Medicine">
+    	select MedID,MedName,Price,Description,Type from medicine where MedID in
+    	<foreach collection="list" item="item" open="(" close=")" separator=",">
+    		#{item}
+    	</foreach>
+    </select>
+    
+    
+</mapper>

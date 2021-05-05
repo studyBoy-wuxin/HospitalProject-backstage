@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<!--   namespace是名称空间：写接口的全类名，相当于告诉muBatis这个配置文件是实现哪个接口的 -->
+<mapper namespace="com.hospital.Dao.DoctorDao">
+
+
+	<!-- public Doctor findDocterById(int id) ;	 -->
+  	<select id="findDocterById" resultType="Doctor">
+  		select * from Doctor where DocID=#{id}
+  	</select>
+  	
+  	<!-- public Doctor findDocterByName(String Name); -->
+  	<select id="findDocterByName" resultType="Doctor">
+  		select * from Doctor where Name like #{Name}
+  	</select>
+  	
+  	<!-- public int insertDoctor(Doctor doc); -->
+  	<insert id="insertDoctor">
+  		insert into doctor(DocID,Name,Qualification,BranchSubject,Introduce,Department,Position)  
+  					values(20004,"王五","广东医科大学本科","肝硬化","优秀的医生","医疗部","主治医生")
+  	</insert>
+  	
+  	
+  
+</mapper>
